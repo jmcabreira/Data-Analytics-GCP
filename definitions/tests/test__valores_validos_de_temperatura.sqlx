@@ -4,6 +4,6 @@ config {
 }
 
 SELECT *
-FROM ${ref("gsod_modelado")}  -- nome exato do modelo definido no config.name
+FROM ${ref("gsod_modelado")}  
 WHERE (temp < -100 OR temp > 100)
   AND data_ingestao = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
