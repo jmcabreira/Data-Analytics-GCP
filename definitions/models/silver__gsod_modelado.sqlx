@@ -1,0 +1,42 @@
+// definitions/models/silver__gsod_modelado.sqlx
+
+config {
+  type: "incremental",
+  name: "gsod_modelado",
+  schema: "silver",
+  tags: ["silver"],
+  bigquery: {
+    partitionBy: {
+      field: "data_ingestao",
+      type: "DAY"
+    }
+  }
+}
+
+SELECT
+  GENERATE_UUID() AS observacao_id,
+  DATE(CONCAT(r.year, '-', r.month, '-', r.day)) AS data,
+  r.temp AS temp,
+  r.max AS maxima_temp,
+  r.min AS minima_temp,
+  r.dewp AS ponto_orvalho,
+  r.slp AS pressao_mar,
+  r.stp AS pressao_estacao,
+  r.visib AS visibilidade,
+  r.wdsp AS velocidade_vento,
+  r.prcp AS precipitacao,
+
+  STRUCT(
+    s.usaf AS usaf,
+    s.wban AS wban,
+    s.name AS nome,
+    s.country AS pais,
+    s.state AS estado,
+    s.latitude AS latitude,
+    s.longitude AS longitude
+  ) AS estacao,
+
+  r.data_ingestao AS data_ingestao
+
+FROM
+  raw
