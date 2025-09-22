@@ -1,0 +1,24 @@
+config {
+  type: "incremental",
+  name: "stations_modelado",
+  schema: "silver",
+  tags: ["silver"],
+  bigquery: {
+    partitionBy: {
+      field: "data_ingestao",
+      type: "DAY"
+    }
+  }
+}
+
+SELECT
+  usaf,
+  wban,
+  name AS nome,
+  country AS pais,
+  state AS estado,
+  latitude,
+  longitude,
+  data_ingestao
+FROM raw.stations
+WHERE data_ingestao = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)

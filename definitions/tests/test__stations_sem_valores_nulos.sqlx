@@ -1,0 +1,9 @@
+config {
+  type: "assertion",
+  tags: ["test", "silver"]
+}
+
+SELECT *
+FROM ${ref("stations_modelado")}
+WHERE (usaf IS NULL OR wban IS NULL OR nome IS NULL)
+  AND data_ingestao = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
