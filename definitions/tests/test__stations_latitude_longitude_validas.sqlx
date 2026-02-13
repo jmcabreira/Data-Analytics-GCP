@@ -1,0 +1,9 @@
+config {
+  type: "assertion",
+  tags: ["test", "silver"]
+}
+
+SELECT *
+FROM ${ref("stations_modelado")}
+WHERE (latitude < -90 OR latitude > 90 OR longitude < -180 OR longitude > 180)
+  AND data_ingestao = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)

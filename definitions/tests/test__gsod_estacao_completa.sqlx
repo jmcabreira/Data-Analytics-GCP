@@ -1,0 +1,9 @@
+config {
+  type: "assertion",
+  tags: ["test", "silver"]
+}
+
+SELECT *
+FROM ${ref("gsod_modelado")}
+WHERE (estacao.usaf IS NULL OR estacao.wban IS NULL)
+  AND data_ingestao = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
